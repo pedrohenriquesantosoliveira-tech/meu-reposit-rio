@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedro Henrique | Desenvolvedor Front-End</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#050811] text-slate-100 font-['Plus_Jakarta_Sans'] selection:bg-blue-500 selection:text-white overflow-x-hidden">
+
+  <!-- Canvas de Partículas Interativas 3D no Fundo -->
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Luzes Ambientais (Orbes) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="ambient-orb orb-blue"></div>
+    <div class="ambient-orb orb-purple"></div>
+  </div>
+
+  <!-- ================= PÁGINA DE ABERTURA (SPLASH SCREEN) ================= -->
+  <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050811] transition-all duration-1000">
+    <div class="cyber-grid absolute inset-0 opacity-20"></div>
+    
+    <div class="relative z-10 text-center px-6 max-w-xl w-full">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-blue-500/30 text-blue-400 font-['Fira_Code'] text-xs mb-6 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>system.init("pedro_henrique")</span>
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-3 splash-title">
+        Pedro <span class="text-gradient">Henrique</span>
+      </h1>
+
+      <p class="font-['Fira_Code'] text-slate-400 text-sm md:text-base h-6 mb-8">
+        <span id="splash-typewriter"></span><span class="cursor-blink">|</span>
+      </p>
+
+      <div class="w-64 h-1.5 bg-slate-800 rounded-full mx-auto mb-8 overflow-hidden p-[1px]">
+        <div id="splash-progress" class="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 rounded-full w-0 transition-all duration-1000 ease-out"></div>
+      </div>
+
+      <button id="enter-portfolio-btn" class="opacity-0 translate-y-4 pointer-events-none btn-3d-enter group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-base tracking-wide shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all duration-500">
+        <span>ACESSAR PORTFÓLIO</span>
+        <i class="fa-solid fa-rocket group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= CONTEÚDO PRINCIPAL ================= -->
+  <div id="portfolio-wrapper" class="relative z-10 opacity-0 scale-95 transition-all duration-1000">
+
+    <!-- Navbar Glassmorphism -->
+    <nav class="fixed top-0 left-0 w-full z-40 bg-[#050811]/75 backdrop-blur-xl border-b border-white/5">
+      <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="#" class="text-xl font-extrabold tracking-wider text-white flex items-center gap-2">
+          <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-sm shadow-lg shadow-blue-500/30">PH</span>
+          <span>PEDRO<span class="text-blue-400">.DEV</span></span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+          <a href="#sobre" class="nav-link hover:text-white transition-colors">Sobre Mim</a>
+          <a href="#skills" class="nav-link hover:text-white transition-colors">Tecnologias</a>
+          <a href="#projetos" class="nav-link hover:text-white transition-colors">Projetos</a>
+          <a href="#contato" class="px-5 py-2.5 rounded-xl bg-blue-600/20 border border-blue-500/40 text-blue-300 hover:bg-blue-600 hover:text-white transition-all">
+            Contato
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-36 pb-24 px-6 max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-14">
+      <div class="flex-1 space-y-6 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 text-xs font-semibold tracking-wider uppercase">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+          </span>
+          Salvador - BA • UCSAL
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-extrabold text-white leading-[1.15]">
+          Criando interfaces <br>
+          <span class="text-gradient">modernas & imersivas</span>.
+        </h1>
+
+        <p class="text-slate-400 text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+          Olá, sou <strong class="text-white">Pedro Henrique</strong>, tenho 20 anos e sou estudante de TI na <strong class="text-blue-400">UCSAL</strong>. Desenvolvo experiências web interativas com foco em performance, design e código limpo.
+        </p>
+
+        <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-3">
+          <a href="#projetos" class="px-7 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold shadow-lg shadow-blue-600/25 hover:-translate-y-1 transition-all flex items-center gap-2">
+            <span>Explorar Projetos</span>
+            <i class="fa-solid fa-layer-group"></i>
+          </a>
+          <a href="#contato" class="px-7 py-4 rounded-xl bg-slate-900/80 border border-slate-700/80 hover:border-blue-500/50 text-slate-200 font-semibold hover:-translate-y-1 transition-all flex items-center gap-2.5 backdrop-blur-md">
+            <i class="fa-solid fa-paper-plane text-blue-400"></i>
+            <span>Enviar Dúvida ou Proposta</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Cartão 3D Interativo com Reflexo (Glare) -->
+      <div class="w-full lg:w-auto flex justify-center perspective-container">
+        <div class="js-tilt-card relative w-80 h-[390px] rounded-3xl bg-gradient-to-b from-slate-800/80 to-slate-950/90 border border-white/10 p-7 flex flex-col justify-between shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden">
+          <div class="card-glare pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"></div>
+          
+          <div class="relative z-10 space-y-5">
+            <div class="flex justify-between items-center">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 text-2xl font-extrabold shadow-inner">
+                PH
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-['Fira_Code']">
+                ● Online
+              </span>
+            </div>
+
+            <div>
+              <h2 class="text-2xl font-bold text-white">Pedro Henrique</h2>
+              <p class="text-blue-400 text-sm font-medium">Desenvolvedor Front-End</p>
+            </div>
+
+            <div class="space-y-2.5 pt-2 text-xs text-slate-300 font-['Fira_Code'] bg-slate-950/60 p-4 rounded-2xl border border-white/5">
+              <p><span class="text-blue-400">idade:</span> 20 anos</p>
+              <p><span class="text-blue-400">local:</span> Salvador, BA</p>
+              <p><span class="text-blue-400">campus:</span> UCSAL</p>
+              <p><span class="text-blue-400">foco:</span> UI / UX & Front-End</p>
+            </div>
+          </div>
+
+          <div class="relative z-10 pt-4 border-t border-white/10 flex justify-between items-center text-xs text-slate-400">
+            <span>Passe o mouse para girar 3D</span>
+            <i class="fa-solid fa-cube text-blue-400 animate-spin" style="animation-duration: 8s;"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Seção 01: Sobre Mim -->
+    <section id="sobre" class="reveal-on-scroll py-20 px-6 max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-10">
+        <span class="font-['Fira_Code'] text-blue-400 text-lg">01.</span>
+        <h2 class="text-3xl font-bold text-white">Sobre Mim & Formação</h2>
+        <div class="h-[1px] bg-slate-800 flex-1 ml-4"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Card 1: Perfil Profissional e Experiência Financeira -->
+        <div class="glass-panel p-8 rounded-3xl space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl mb-2">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white">Tecnologia, Finanças & Economia</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Aos 20 anos, uno a prática profissional como <strong class="text-white">Administrador Financeiro em uma empresa do setor moveleiro</strong> com a graduação em Tecnologia da Informação pela <strong class="text-blue-400">UCSAL</strong>.
+          </p>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Como um grande <strong class="text-blue-300">entusiasta em Economia</strong>, tenho facilidade em traduzir regras de negócio, análise de indicadores e fluxos financeiros em interfaces web modernas, intuitivas e orientadas a dados.
+          </p>
+        </div>
+
+        <!-- Card 2: Formação Acadêmica e Competências Híbridas -->
+        <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl shrink-0">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+              <span class="text-xs font-['Fira_Code'] text-indigo-400 uppercase tracking-wider">Ensino Superior & Vivência</span>
+              <h3 class="text-xl font-bold text-white mt-1">Universidade Católica do Salvador</h3>
+              <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                Estudante de TI em Salvador - BA, conciliando a gestão financeira corporativa (fluxo de caixa, custos e planejamento) com o desenvolvimento Front-End.
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-2">
+            <span class="px-3 py-1 rounded-lg bg-blue-500/10 text-xs text-blue-300 border border-blue-500/20">Gestão Financeira</span>
+            <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-xs text-emerald-300 border border-emerald-500/20">Economia & Mercado</span>
+            <span class="px-3 py-1 rounded-lg bg-white/5 text-xs text-slate-300 border border-white/10">Desenvolvimento Web</span>
+            <span class="px-3 py-1 rounded-lg bg-white/5 text-xs text-slate-300 border border-white/10">Análise de Dados</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Seção 02: Tech Stack com Cards 3D -->
+    <section id="skills" class="reveal-on-scroll py-20 px-6 max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-10">
+        <span class="font-['Fira_Code'] text-blue-400 text-lg">02.</span>
+        <h2 class="text-3xl font-bold text-white">Stack Tecnológica</h2>
+        <div class="h-[1px] bg-slate-800 flex-1 ml-4"></div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
+        <div class="js-tilt-card skill-box p-6 rounded-2xl text-center space-y-3 relative overflow-hidden">
+          <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+          <i class="fa-brands fa-html5 text-4xl text-orange-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.4)]"></i>
+          <h4 class="text-sm font-bold text-white">HTML5</h4>
+          <p class="text-[11px] text-slate-400">Semântica & SEO</p>
+        </div>
+
+        <div class="js-tilt-card skill-box p-6 rounded-2xl text-center space-y-3 relative overflow-hidden">
+          <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+          <i class="fa-brands fa-css3-alt text-4xl text-blue-500 drop-shadow-[0_0_12px_rgba(59,130,246,0.4)]"></i>
+          <h4 class="text-sm font-bold text-white">CSS3</h4>
+          <p class="text-[11px] text-slate-400">Animações & Grid</p>
+        </div>
+
+        <div class="js-tilt-card skill-box p-6 rounded-2xl text-center space-y-3 relative overflow-hidden">
+          <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+          <i class="fa-brands fa-js text-4xl text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.4)]"></i>
+          <h4 class="text-sm font-bold text-white">JavaScript</h4>
+          <p class="text-[11px] text-slate-400">ES6+ & DOM</p>
+        </div>
+
+        <div class="js-tilt-card skill-box p-6 rounded-2xl text-center space-y-3 relative overflow-hidden">
+          <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+          <i class="fa-brands fa-react text-4xl text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.4)]"></i>
+          <h4 class="text-sm font-bold text-white">React</h4>
+          <p class="text-[11px] text-slate-400">Componentização</p>
+        </div>
+
+        <div class="js-tilt-card skill-box p-6 rounded-2xl text-center space-y-3 relative overflow-hidden">
+          <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+          <i class="fa-solid fa-wind text-4xl text-teal-400 drop-shadow-[0_0_12px_rgba(45,212,191,0.4)]"></i>
+          <h4 class="text-sm font-bold text-white">Tailwind</h4>
+          <p class="text-[11px] text-slate-400">UI Moderna</p>
+        </div>
+
+        <div class="js-tilt-card skill-box p-6 rounded-2xl text-center space-y-3 relative overflow-hidden">
+          <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+          <i class="fa-brands fa-git-alt text-4xl text-rose-500 drop-shadow-[0_0_12px_rgba(244,63,94,0.4)]"></i>
+          <h4 class="text-sm font-bold text-white">Git & GitHub</h4>
+          <p class="text-[11px] text-slate-400">Versionamento</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 03: Carrossel 3D de Projetos -->
+    <section id="projetos" class="reveal-on-scroll py-20 px-6 max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+        <div class="flex items-center gap-3 flex-1">
+          <span class="font-['Fira_Code'] text-blue-400 text-lg">03.</span>
+          <h2 class="text-3xl font-bold text-white">Projetos em Destaque</h2>
+          <div class="h-[1px] bg-slate-800 flex-1 ml-4 hidden sm:block"></div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="carousel-prev" class="w-11 h-11 rounded-xl bg-slate-900 border border-white/10 hover:border-blue-500/50 hover:bg-blue-600/20 text-white flex items-center justify-center transition-all" aria-label="Anterior">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button id="carousel-next" class="w-11 h-11 rounded-xl bg-slate-900 border border-white/10 hover:border-blue-500/50 hover:bg-blue-600/20 text-white flex items-center justify-center transition-all" aria-label="Próximo">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Carrossel Container -->
+      <div class="relative rounded-3xl border border-white/10 bg-slate-900/40 backdrop-blur-xl overflow-hidden shadow-2xl">
+        <div class="w-full h-1 bg-slate-800/80">
+          <div id="carousel-progress" class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 w-0"></div>
+        </div>
+
+        <div id="carousel-track" class="flex transition-transform duration-700 cubic-bezier(0.22, 1, 0.36, 1)">
+          
+          <!-- Slide 1 -->
+          <div class="w-full flex-shrink-0 p-8 md:p-12 grid lg:grid-cols-2 gap-10 items-center">
+            <div class="js-tilt-card aspect-video rounded-2xl bg-gradient-to-br from-blue-600/20 via-slate-900 to-indigo-950 border border-blue-500/20 flex flex-col items-center justify-center p-6 relative overflow-hidden group">
+              <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+              <i class="fa-solid fa-chart-line text-6xl text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-500"></i>
+              <span class="font-['Fira_Code'] text-xs text-blue-300/80 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Analytics UI Dashboard</span>
+            </div>
+            <div class="space-y-5">
+              <span class="font-['Fira_Code'] text-xs text-blue-400 uppercase tracking-widest">Projeto 01 • Web App</span>
+              <h3 class="text-2xl md:text-3xl font-bold text-white">Dashboard Financeiro Interativo</h3>
+              <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                Painel administrativo completo com visualização de dados em tempo real, filtros dinâmicos, alternância de tema e layout 100% responsivo.
+              </p>
+              <div class="flex flex-wrap gap-2 font-['Fira_Code'] text-xs">
+                <span class="px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/20">HTML5</span>
+                <span class="px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/20">Tailwind CSS</span>
+                <span class="px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/20">JavaScript ES6</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="w-full flex-shrink-0 p-8 md:p-12 grid lg:grid-cols-2 gap-10 items-center">
+            <div class="js-tilt-card aspect-video rounded-2xl bg-gradient-to-br from-purple-600/20 via-slate-900 to-fuchsia-950 border border-purple-500/20 flex flex-col items-center justify-center p-6 relative overflow-hidden group">
+              <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+              <i class="fa-solid fa-bag-shopping text-6xl text-purple-400 mb-4 group-hover:scale-110 transition-transform duration-500"></i>
+              <span class="font-['Fira_Code'] text-xs text-purple-300/80 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">Modern E-Commerce</span>
+            </div>
+            <div class="space-y-5">
+              <span class="font-['Fira_Code'] text-xs text-purple-400 uppercase tracking-widest">Projeto 02 • E-Commerce</span>
+              <h3 class="text-2xl md:text-3xl font-bold text-white">Loja Virtual Tech Store</h3>
+              <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                Experiência de compra fluida com carrinho de compras lateral, cálculo automático de valores, busca instantânea e persistência de dados no navegador.
+              </p>
+              <div class="flex flex-wrap gap-2 font-['Fira_Code'] text-xs">
+                <span class="px-3 py-1.5 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/20">React.js</span>
+                <span class="px-3 py-1.5 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/20">CSS3 3D</span>
+                <span class="px-3 py-1.5 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/20">LocalStorage</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="w-full flex-shrink-0 p-8 md:p-12 grid lg:grid-cols-2 gap-10 items-center">
+            <div class="js-tilt-card aspect-video rounded-2xl bg-gradient-to-br from-emerald-600/20 via-slate-900 to-teal-950 border border-emerald-500/20 flex flex-col items-center justify-center p-6 relative overflow-hidden group">
+              <div class="card-glare pointer-events-none absolute inset-0 opacity-0"></div>
+              <i class="fa-solid fa-cloud-bolt text-6xl text-emerald-400 mb-4 group-hover:scale-110 transition-transform duration-500"></i>
+              <span class="font-['Fira_Code'] text-xs text-emerald-300/80 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Weather API Integration</span>
+            </div>
+            <div class="space-y-5">
+              <span class="font-['Fira_Code'] text-xs text-emerald-400 uppercase tracking-widest">Projeto 03 • API REST</span>
+              <h3 class="text-2xl md:text-3xl font-bold text-white">ClimaTempo Real-Time</h3>
+              <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                Aplicação conectada à API meteorológica que adapta dinamicamente as cores e animações da interface de acordo com o clima da cidade pesquisada.
+              </p>
+              <div class="flex flex-wrap gap-2 font-['Fira_Code'] text-xs">
+                <span class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Fetch API</span>
+                <span class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Async/Await</span>
+                <span class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Glassmorphism</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="carousel-indicators" class="flex justify-center gap-2.5 mt-6"></div>
+    </section>
+
+    <!-- ================= SEÇÃO 04: CONTATO COM FORMULÁRIO INTERATIVO ================= -->
+    <section id="contato" class="reveal-on-scroll py-20 px-6 max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-10">
+        <span class="font-['Fira_Code'] text-blue-400 text-lg">04.</span>
+        <h2 class="text-3xl font-bold text-white">Dúvidas & Interesses</h2>
+        <div class="h-[1px] bg-slate-800 flex-1 ml-4"></div>
+      </div>
+
+      <div class="grid lg:grid-cols-5 gap-8 items-stretch">
+        
+        <!-- Coluna Esquerda: Informações Diretas & WhatsApp -->
+        <div class="lg:col-span-2 glass-panel p-8 rounded-3xl flex flex-col justify-between space-y-8">
+          <div class="space-y-4">
+            <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-['Fira_Code']">
+              Canal Direto
+            </span>
+            <h3 class="text-2xl font-bold text-white leading-snug">
+              Tem alguma dúvida ou proposta?
+            </h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Selecione o motivo do seu interesse no formulário ao lado e envie sua mensagem diretamente para o meu e-mail institucional, ou fale comigo agora pelo WhatsApp.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Botão WhatsApp -->
+            <a href="https://wa.me/5575992343726?text=Ol%C3%A1%20Pedro!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar." target="_blank" class="w-full p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-semibold transition-all flex items-center gap-4 group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 group-hover:bg-slate-950/20 flex items-center justify-center text-xl">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <div class="text-left">
+                <p class="text-xs opacity-80">WhatsApp Direto</p>
+                <p class="text-sm font-bold">(75) 99234-3726</p>
+              </div>
+            </a>
+
+            <!-- Botão Copiar E-mail -->
+            <button id="copy-email-btn" type="button" class="w-full p-4 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-blue-400/50 text-slate-200 transition-all flex items-center gap-4 text-left group">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg shrink-0">
+                <i class="fa-regular fa-copy"></i>
+              </div>
+              <div class="overflow-hidden">
+                <p class="text-xs text-slate-400">Clique para copiar o e-mail</p>
+                <p id="email-label" class="text-xs font-['Fira_Code'] text-blue-300 truncate">pedrohenriquesantos.oliveira@ucsal.edu.br</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Coluna Direita: Formulário de Dúvidas e Interesses -->
+        <div class="lg:col-span-3 glass-panel p-8 md:p-10 rounded-3xl relative overflow-hidden">
+          <form id="contact-form" class="space-y-5 relative z-10">
+
+            <!-- Chips de Seleção Rápida de Interesse -->
+            <div class="space-y-2">
+              <label class="block text-xs font-['Fira_Code'] text-slate-300 uppercase tracking-wider">
+                Qual o seu interesse? <span class="text-blue-400">*</span>
+              </label>
+              <div id="interest-chips" class="flex flex-wrap gap-2">
+                <button type="button" data-value="Oportunidade de Estágio" class="interest-chip active px-3.5 py-2 rounded-xl text-xs font-medium border transition-all">
+                  <i class="fa-solid fa-graduation-cap mr-1.5"></i>Estágio
+                </button>
+                <button type="button" data-value="Vaga Front-End Júnior" class="interest-chip px-3.5 py-2 rounded-xl text-xs font-medium border transition-all">
+                  <i class="fa-solid fa-briefcase mr-1.5"></i>Vaga Júnior
+                </button>
+                <button type="button" data-value="Projeto Freelance" class="interest-chip px-3.5 py-2 rounded-xl text-xs font-medium border transition-all">
+                  <i class="fa-solid fa-laptop-code mr-1.5"></i>Projeto Freelance
+                </button>
+                <button type="button" data-value="Dúvida Técnica / Networking" class="interest-chip px-3.5 py-2 rounded-xl text-xs font-medium border transition-all">
+                  <i class="fa-solid fa-circle-question mr-1.5"></i>Dúvida / Networking
+                </button>
+              </div>
+              <input type="hidden" id="sender-interest" name="interesse" value="Oportunidade de Estágio">
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-5">
+              <!-- Campo Nome -->
+              <div class="space-y-2">
+                <label for="sender-name" class="block text-xs font-['Fira_Code'] text-slate-300 uppercase tracking-wider">
+                  Seu Nome <span class="text-blue-400">*</span>
+                </label>
+                <div class="relative">
+                  <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                  <input type="text" id="sender-name" name="name" required placeholder="Ex: Maria Souza" class="form-input w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-950/80 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none">
+                </div>
+              </div>
+
+              <!-- Campo E-mail -->
+              <div class="space-y-2">
+                <label for="sender-email" class="block text-xs font-['Fira_Code'] text-slate-300 uppercase tracking-wider">
+                  Seu E-mail <span class="text-blue-400">*</span>
+                </label>
+                <div class="relative">
+                  <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                  <input type="email" id="sender-email" name="email" required placeholder="seuemail@exemplo.com" class="form-input w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-950/80 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none">
+                </div>
+              </div>
+            </div>
+
+            <!-- Campo Mensagem / Dúvida -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label for="sender-message" class="block text-xs font-['Fira_Code'] text-slate-300 uppercase tracking-wider">
+                  Sua Dúvida ou Mensagem <span class="text-blue-400">*</span>
+                </label>
+                <span id="char-counter" class="text-[11px] font-['Fira_Code'] text-slate-500">0 / 500</span>
+              </div>
+              <textarea id="sender-message" name="message" rows="4" maxlength="500" required placeholder="Descreva sua dúvida, detalhes da vaga ou proposta de projeto..." class="form-input w-full p-4 rounded-xl bg-slate-950/80 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none resize-none"></textarea>
+            </div>
+
+            <!-- Botão de Envio -->
+            <button type="submit" id="submit-form-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-blue-600/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2.5">
+              <span id="submit-btn-text">ENVIAR PARA O E-MAIL DE PEDRO</span>
+              <i id="submit-btn-icon" class="fa-solid fa-paper-plane"></i>
+            </button>
+
+            <!-- Caixa de Status -->
+            <div id="form-status" class="hidden p-4 rounded-xl text-sm font-medium text-center border transition-all"></div>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-white/5 text-center text-slate-500 text-xs font-['Fira_Code']">
+      <p>Desenvolvido por Pedro Henrique • UCSAL Salvador • 2026</p>
+    </footer>
+  </div>
+
+  <!-- Botão Flutuante WhatsApp -->
+  <a href="https://wa.me/5575992343726?text=Ol%C3%A1%20Pedro!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar." target="_blank" class="whatsapp-pulse fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-transform" title="Falar com Pedro no WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
